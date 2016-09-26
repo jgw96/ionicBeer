@@ -11,10 +11,7 @@ import { DetailPage } from '../pages/detail/detail';
 import { BeerService } from '../providers/beer.service';
 import { PopoverPage } from '../pages/PopoverPage/popover-page';
 
-import { Store, StoreModule } from '@ngrx/store';
-import { counterReducer } from '../counter';
-
-import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
+//import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
 
 @NgModule({
   declarations: [
@@ -28,12 +25,12 @@ import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-tra
   ],
   imports: [
     IonicModule.forRoot(MyApp),
-    StoreModule.provideStore({ counter: counterReducer }, { counter: 0 }),
-    TranslateModule.forRoot({
+    //StoreModule.provideStore({ counter: counterReducer }, { counter: 0 }),
+    /*TranslateModule.forRoot({
       provide: TranslateLoader,
       useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
       deps: [Http]
-    })
+    })*/
   ],
   bootstrap: [IonicApp],
   entryComponents: [
