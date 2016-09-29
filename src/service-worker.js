@@ -1,4 +1,4 @@
-var CACHE_VERSION = 2;
+var CACHE_VERSION = 1;
 var CURRENT_CACHES = {
     'read-through': 'read-through-cache-v' + CACHE_VERSION
 };
@@ -57,8 +57,7 @@ self.addEventListener('fetch', function (event) {
 
                     // Optional: add in extra conditions here, e.g. response.type == 'basic' to only cache
                     // responses from the same domain. See https://fetch.spec.whatwg.org/#concept-response-type
-                    if (response.status < 400 && response.type === 'basic' || response.url === 'https://glacial-forest-35899.herokuapp.com/beers') {
-                        console.log(response.url);
+                    if (response.status < 400 && response.type === 'basic') {
                         // This avoids caching responses that we know are errors (i.e. HTTP status code of 4xx or 5xx).
                         // One limitation is that, for non-CORS requests, we get back a filtered opaque response
                         // (https://fetch.spec.whatwg.org/#concept-filtered-response-opaque) which will always have a
