@@ -11,7 +11,7 @@
 
 <ion-content>
   <ion-list>
-    <button id="listItem" (press)="options()" (click)="openDetail(beer)" ion-item *ngFor="let beer of beers">
+    <button id="listItem" (press)="favorite(beer)" (click)="openDetail(beer)" ion-item *ngFor="let beer of beers">
       <h2 id="title">{{beer.name}}</h2>
       <h3 *ngIf="beer.abv">ABV: {{beer.abv}}</h3>
       <h3 *ngIf="!beer.abv">ABV not available</h3>
@@ -22,9 +22,17 @@
     </button>
   </ion-list>
 
-  <ion-fab bottom right>
-    <button color="secondary" (click)="search()" ion-fab>
-      <ion-icon name="search"></ion-icon>
+  <ion-fab bottom right #fab>
+    <button color="secondary" ion-fab>
+      <ion-icon name="add"></ion-icon>
     </button>
+    <ion-fab-list side="top">
+     <button ion-fab (click)="search(fab)">
+       <ion-icon name="search"></ion-icon>
+     </button>
+     <button ion-fab (click)="default(fab)">
+       <ion-icon name="close"></ion-icon>
+     </button>
+   </ion-fab-list>
   </ion-fab>
 </ion-content>

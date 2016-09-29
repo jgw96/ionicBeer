@@ -7,13 +7,13 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="!beer.brewery" @slideLeft>
+  <div *ngIf="!beer.brewery">
     <h1>{{beer.name}}</h1>
     <h4 *ngIf="beer.ibu">IBU: {{beer.ibu}}</h4>
     <h4 *ngIf="beer.abv">ABV: {{beer.abv}}</h4>
     <p *ngIf="beer.description">{{beer.description}}</p>
   </div>
-  <div *ngIf="beer.brewery" @slideLeft>
+  <div *ngIf="beer.brewery">
     <img [src]="beer.brewery.images.medium" *ngIf="beer.brewery.images.medium">
     <img src="http://lorempixel.com/400/400/nightlife" *ngIf="!beer.brewery.images.medium">
     <h1>{{beer.brewery.name}}</h1>

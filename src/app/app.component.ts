@@ -16,7 +16,6 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       StatusBar.backgroundColorByHexString('#00796B');
-      console.log('hello world');
     }).catch((e) => {
       console.error(e);
     })

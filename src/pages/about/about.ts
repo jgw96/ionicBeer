@@ -28,8 +28,9 @@ export class AboutPage {
       navigator.geolocation.getCurrentPosition((position) => {
         this.beerService.getLocalBeer(position).subscribe(
           data => {
-            this.bars = data;
-            console.log(data);
+            let barData = JSON.parse(data);
+            this.bars = barData.data;
+            console.log(barData);
             loader.dismiss();
           },
           err => {

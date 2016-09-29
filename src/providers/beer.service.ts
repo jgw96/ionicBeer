@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
@@ -13,21 +13,32 @@ export class BeerService {
   constructor(private http: Http) { }
 
   getBeerList(): Observable<any> {
-    return this.http.get('https://crossorigin.me/http://api.brewerydb.com/v2/beers?ibu=10,100&key=c0b90d19385d7dabee991e89c24ea711')
+    return this.http.get('https://glacial-forest-35899.herokuapp.com/beers')
       .map(this.extractData)
-      .catch(this.handleError);
+      .catch(this.handleError)
   }
 
   searchBeers(searchTerm: string): Observable<any> {
-    return this.http.get(`https://crossorigin.me/http://api.brewerydb.com/v2/search?q=${searchTerm}&type=beer&key=c0b90d19385d7dabee991e89c24ea711`)
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    let body = JSON.stringify({
+      searchTerm: searchTerm
+    });
+    return this.http.post('https://glacial-forest-35899.herokuapp.com/search', body, options)
       .map(this.extractData)
-      .catch(this.handleError);
+      .catch(this.handleError)
   }
 
   getLocalBeer(position): Observable<any> {
-    return this.http.get(`https://crossorigin.me/http://api.brewerydb.com/v2/search/geo/point?lat=${position.coords.latitude}&lng=${position.coords.longitude}&radius=15&key=c0b90d19385d7dabee991e89c24ea711`)
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    let body = JSON.stringify({
+      lat: position.coords.latitude,
+      long: position.coords.longitude
+    });
+    return this.http.post('https://glacial-forest-35899.herokuapp.com/local', body, options)
       .map(this.extractData)
-      .catch(this.handleError);
+      .catch(this.handleError)
   }
 
   private extractData(res: Response) {

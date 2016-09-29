@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
 
-import { NavController, LoadingController, AlertController, ToastController, ActionSheetController, PopoverController } from 'ionic-angular';
-import { Vibration } from 'ionic-native';
-
-//import * as ng2Translate from 'ng2-translate/ng2-translate';
+import {
+  NavController,
+  LoadingController,
+  AlertController,
+  ToastController,
+  PopoverController,
+  FabContainer
+} from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 import { BeerService } from '../../providers/beer.service';
 import { DetailPage } from '../detail/detail';
@@ -15,6 +20,7 @@ import { PopoverPage } from '../PopoverPage/popover-page';
 export class HomePage {
 
   public beers: any[];
+  public faveBeers: any[];
 
   constructor(
     private navCtrl: NavController,
@@ -22,11 +28,17 @@ export class HomePage {
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
-    public actionSheetCtrl: ActionSheetController,
     public popoverCtrl: PopoverController,
-    //public translate: ng2Translate.TranslateService
+    public storage: Storage
   ) {
-
+    this.storage.get('faveBeers').then((value) => {
+      console.log(value);
+      if (value === null) {
+        this.faveBeers = [];
+      } else {
+        this.faveBeers = value;
+      }
+    })
   }
 
   ionViewDidLoad() {
@@ -36,8 +48,8 @@ export class HomePage {
     loader.present().then(() => {
       this.beerService.getBeerList().subscribe(
         data => {
-          console.log(data);
-          this.beers = data;
+          let beerData = JSON.parse(data);
+          this.beers = beerData.data;
           loader.dismiss();
         },
         err => {
@@ -49,10 +61,10 @@ export class HomePage {
 
   openDetail(beer: Object) {
     this.navCtrl.push(DetailPage, { data: beer });
-    Vibration.vibrate(1000);
   }
 
-  search() {
+  search(fab: FabContainer) {
+    fab.close();
     let alert = this.alertCtrl.create({
       title: 'Search',
       message: 'Search beers!',
@@ -70,7 +82,7 @@ export class HomePage {
           }
         },
         {
-          text: 'Save',
+          text: 'Search',
           handler: data => {
             let loader = this.loadingCtrl.create({
               content: 'Fetching beer...'
@@ -78,8 +90,8 @@ export class HomePage {
             loader.present().then(() => {
               this.beerService.searchBeers(data.searchTerm).subscribe(
                 data => {
-                  console.log(data);
-                  this.beers = data;
+                  let beerData = JSON.parse(data);
+                  this.beers = beerData.data;
                   loader.dismiss();
                 },
                 err => {
@@ -100,33 +112,46 @@ export class HomePage {
     alert.present();
   }
 
-  options() {
-    let actionSheet = this.actionSheetCtrl.create({
-      title: 'Modify your album',
+  default(fab: FabContainer) {
+    fab.close();
+    let loader = this.loadingCtrl.create({
+      content: 'Fetching default beers...'
+    });
+    loader.present().then(() => {
+      this.beerService.getBeerList().subscribe(
+        data => {
+          let beerData = JSON.parse(data);
+          this.beers = beerData.data;
+          loader.dismiss();
+        },
+        err => {
+          console.error(err);
+        }
+      )
+    });
+  }
+
+  favorite(beer: any) {
+    let prompt = this.alertCtrl.create({
+      title: 'Favorite',
+      message: "Would you like to favorite this beer?",
       buttons: [
         {
-          text: 'Share',
-          icon: 'share',
-          handler: () => {
-            console.log('Destructive clicked');
-          }
-        }, {
-          text: 'Favorite',
-          icon: 'star',
-          handler: () => {
-            console.log('Archive clicked');
-          }
-        }, {
           text: 'Cancel',
-          icon: 'close',
-          role: 'cancel',
-          handler: () => {
+          handler: data => {
             console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Favorite',
+          handler: data => {
+            this.faveBeers.push(beer);
+            this.storage.set('faveBeers', this.faveBeers);
           }
         }
       ]
     });
-    actionSheet.present();
+    prompt.present();
   }
 
   more(myEvent: Event) {

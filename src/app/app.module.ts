@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Http } from '@angular/http';
 import { IonicApp, IonicModule } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 import { AboutPage } from '../pages/about/about';
@@ -11,7 +12,6 @@ import { DetailPage } from '../pages/detail/detail';
 import { BeerService } from '../providers/beer.service';
 import { PopoverPage } from '../pages/PopoverPage/popover-page';
 
-//import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
 
 @NgModule({
   declarations: [
@@ -24,13 +24,7 @@ import { PopoverPage } from '../pages/PopoverPage/popover-page';
     PopoverPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp),
-    //StoreModule.provideStore({ counter: counterReducer }, { counter: 0 }),
-    /*TranslateModule.forRoot({
-      provide: TranslateLoader,
-      useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
-      deps: [Http]
-    })*/
+    IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -42,6 +36,6 @@ import { PopoverPage } from '../pages/PopoverPage/popover-page';
     DetailPage,
     PopoverPage
   ],
-  providers: [BeerService]
+  providers: [BeerService, Storage]
 })
 export class AppModule { }

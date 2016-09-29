@@ -1,27 +1,11 @@
-import {
-  Component,
-  trigger,
-  state,
-  style,
-  transition,
-  animate
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 import { NavController, NavParams } from 'ionic-angular';
 
 import { TabsPage } from '../../pages/tabs/tabs';
 
 @Component({
-  templateUrl: 'detail.html',
-  animations: [
-    trigger('slideLeft', [
-      state('in', style({ transform: 'translateX(0)'})),
-      transition('void => *', [
-        style({ transform: 'translateX(100%)'}),
-        animate('300ms, 600ms')
-      ])
-    ])
-  ]
+  templateUrl: 'detail.html'
 })
 export class DetailPage {
 
