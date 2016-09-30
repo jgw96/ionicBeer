@@ -6,13 +6,15 @@ import {
   AlertController,
   ToastController,
   PopoverController,
-  FabContainer
+  FabContainer,
+  ModalController
 } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { BeerService } from '../../providers/beer.service';
 import { DetailPage } from '../detail/detail';
 import { PopoverPage } from '../PopoverPage/popover-page';
+import { Camera } from '../camera/camera';
 
 @Component({
   templateUrl: 'home.html'
@@ -29,7 +31,8 @@ export class HomePage {
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public popoverCtrl: PopoverController,
-    public storage: Storage
+    public storage: Storage,
+    public modalCtrl: ModalController
   ) {
     this.storage.get('faveBeers').then((value) => {
       console.log(value);
@@ -159,5 +162,11 @@ export class HomePage {
     popover.present({
       ev: myEvent
     });
+  }
+
+  image(fab: FabContainer) {
+    fab.close();
+    let modal = this.modalCtrl.create(Camera);
+    modal.present();
   }
 }

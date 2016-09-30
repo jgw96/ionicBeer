@@ -11,6 +11,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { DetailPage } from '../pages/detail/detail';
 import { BeerService } from '../providers/beer.service';
 import { PopoverPage } from '../pages/PopoverPage/popover-page';
+import { Camera } from '../pages/camera/camera';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { PopoverPage } from '../pages/PopoverPage/popover-page';
     HomePage,
     TabsPage,
     DetailPage,
-    PopoverPage
+    PopoverPage,
+    Camera
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -34,7 +36,8 @@ import { PopoverPage } from '../pages/PopoverPage/popover-page';
     HomePage,
     TabsPage,
     DetailPage,
-    PopoverPage
+    PopoverPage,
+    Camera
   ],
   providers: [BeerService, Storage]
 })
